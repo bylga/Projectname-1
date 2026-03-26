@@ -1,2 +1,2 @@
 main:
-	gcc main.c -lncurses -o main
+	gcc ./src/main.c -lncurses -o ./bin/main && ./bin/main
