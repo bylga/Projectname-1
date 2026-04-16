@@ -1,9 +1,10 @@
+#include"BLANK.h"
 #include<ncurses.h>
 #include<assert.h>
 #include<string.h>
 #include<stdlib.h>
 #define sidex 32
-#define sidey 32
+#define sidey 16
 #define STARTX 16
 #define STARTY 3
 #ifndef GAMEIMPL
@@ -32,8 +33,9 @@ int clamp(int x, int left, int right){
 	return x;
 }
 
+size_t mX = 32; size_t mY = 16;
+
 int movePlayer(int mv, Player * p,  FILE * Level){
-	int mX = 32; int mY = 32;
 	enum Levels lvl = END;
 	switch (mv){
 		case KEY_UP:
