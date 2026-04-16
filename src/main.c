@@ -54,7 +54,7 @@ void GenMap(){
 	board[mX * mY] = '\0';
 
 	for (size_t i = 1; i < mY * (mX + 1); i++){
-		if (i % (sidex + 1) == 0) board[i - 1] = '\n';
+		if (i % (mX + 1) == 0) board[i - 1] = '\n';
 		else board[i - 1] = '.';
 	}
 }

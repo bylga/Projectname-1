@@ -3,8 +3,6 @@
 #include<assert.h>
 #include<string.h>
 #include<stdlib.h>
-#define sidex 32
-#define sidey 16
 #define STARTX 16
 #define STARTY 3
 #ifndef GAMEIMPL
@@ -12,7 +10,7 @@
 #else
 
 int CurLevel = 0;
-char board[sidex * (sidey + 1) + 1];
+char board[BUFSIZ];
 long long Turn = 0;
 
 enum Levels {
