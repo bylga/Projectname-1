@@ -1,6 +1,7 @@
 #include<ncurses.h>
 #include<assert.h>
 #include<string.h>
+#include<stdlib.h>
 #define sidex 32
 #define sidey 32
 #define STARTX 16
@@ -87,3 +88,5 @@ FILE * LoadLevel(int LevelNumber){
 	return Level;
 }
 #endif
+
+#include"Inventory.h"

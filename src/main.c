@@ -7,8 +7,9 @@ TODO: Add saves          |- priority 2
 #include"game.h"
 
 void printLevel(FILE * Level){
-	fprintf(stdout,"printing level...\n");
-	
+	while((c = getchar()) != '\n'){
+		
+	}
 }
 
 void GenMap(){
@@ -32,20 +33,15 @@ int main(){
 
 	do{
 		if (CurLevel == 0){
-			if (Level != NULL) {fclose(Level); Level = NULL;}
+			if (Level != NULL) {fclose(Level); Level = NULL; clear();}
 			GenMap();
 			board[p.x - 1 + (sidex + 1) * (p.y - 1)] = '@';
 			mX = 32; mY = 16;
 			printw("%s\n", board);
 		}
 		else{
-			if (Level == NULL){
-				Level = LoadLevel(CurLevel);
-				printLevel(Level);
-			}
-			else{
-				printLevel(Level);
-			}
+			if (Level == NULL) {Level = LoadLevel(CurLevel); clear();}
+			printLevel(Level);
 		}
 		printw("\n x: %4d, y: %4d", p.x, p.y);
 		move(0,0);
