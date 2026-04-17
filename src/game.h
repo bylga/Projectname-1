@@ -1,4 +1,3 @@
-#include"BLANK.h"
 #include<ncurses.h>
 #include<assert.h>
 #include<string.h>
@@ -16,6 +15,7 @@ long long Turn = 0;
 enum Levels {
 	test = 0,
 	test1,
+	test2,
 	END
 };
 /* TODO: Imploment debug level selection */
@@ -24,44 +24,6 @@ typedef struct{
 	int x;
 	int y;
 } Player;
-
-int clamp(int x, int left, int right){
-	x = x < right ? x : right;
-	x = x < left ? left : x;
-	return x;
-}
-
-size_t mX = 32; size_t mY = 16;
-
-int movePlayer(int mv, Player * p,  FILE * Level){
-	enum Levels lvl = END;
-	switch (mv){
-		case KEY_UP:
-			p->y--;
-			break;
-		case KEY_DOWN:
-			p->y++;
-			break;
-		case KEY_LEFT:
-			p->x--;
-			break;
-		case KEY_RIGHT:
-			p->x++;
-			break;
-		case 'P':
-			if (Level != NULL) {fclose(Level); Level = NULL;}
-			return 1;
-		case 'C':
-			CurLevel += 1;
-			CurLevel %= END;
-			return 0;
-		default:
-			return 0;
-	}
-	p->x = clamp(p->x, 1, mX);
-	p->y = clamp(p->y, 1, mY);
-	return 0;
-}
 
 void itoa(char buf[], int x, size_t size){
 	size--;
@@ -87,6 +49,45 @@ FILE * LoadLevel(int LevelNumber){
 
 	return Level;
 }
+
+int clamp(int x, int left, int right){
+	x = x < right ? x : right;
+	x = x < left ? left : x;
+	return x;
+}
+
+size_t mX = 32; size_t mY = 16;
+
+int movePlayer(int mv, Player * p,  FILE ** Level){
+	switch (mv){
+		case KEY_UP:
+			p->y--;
+			break;
+		case KEY_DOWN:
+			p->y++;
+			break;
+		case KEY_LEFT:
+			p->x--;
+			break;
+		case KEY_RIGHT:
+			p->x++;
+			break;
+		case 'P':
+			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
+			return 1;
+		case 'C':
+			open = false;
+			CurLevel += 1;
+			CurLevel %= END;
+			if (*Level != NULL) fclose(*Level);
+			*Level = LoadLevel(CurLevel);
+			clear();
+			break;
+	}
+	p->x = clamp(p->x, 1, mX);
+	p->y = clamp(p->y, 1, mY);
+	return 0;
+}
 #endif
 
-#include"Inventory.h"
+#include"inventory.h"

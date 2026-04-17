@@ -1,8 +1,9 @@
-#define pair(a, b) struct{ a; b; } pair;
+#include<stddef.h>
+#define pair(a,b) struct{a;b;}pair
 
 typedef struct{
 	char * start;
-	size_t length;
+	size_t len;
 } String_v;
 
 typedef struct{

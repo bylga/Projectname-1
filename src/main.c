@@ -4,15 +4,16 @@ TODO: Add other creatures|
 TODO: Add saves          |- priority 2
 */
 #define GAMEIMPL
+#include<stdbool.h>
+static bool open = false;
 #include"game.h"
 
-static bool open = false;
 
 void printLevel(FILE * Level){
+	char c = 0;
 	static int offset = 0;
 	if (!open){
 		offset = 0;
-		char c = 0;
 		char buf[BUFSIZ];
 
 		int i = 0;
@@ -39,14 +40,12 @@ void printLevel(FILE * Level){
 		open = true;
 		offset += i + 1;
 	}
-	else{
-		fseek(Level, offset, 0);
-		char c = 0;
-		for (size_t i = 0; ((c = fgetc(Level)) != EOF) && (i < (mX + 1) * mY); i++){
-			board[i] = c;
-		}
-		board[(mX + 1) * mY] = '\0';
+	fseek(Level, offset, 0);
+	c = 0;
+	for (size_t i = 0; ((c = fgetc(Level)) != EOF) && (i < (mX + 1) * mY); i++){
+		board[i] = c;
 	}
+	board[(mX + 1) * mY] = '\0';
 }
 
 void GenMap(){
@@ -72,10 +71,8 @@ int main(){
 	do {
 
 		if (CurLevel == 0){
-			if (Level != NULL) {fclose(Level); Level = NULL; printw("%s", __BLANK); open = false;}
 			GenMap();
 		} else{
-			if (Level == NULL) {Level = LoadLevel(CurLevel); printw("%s", __BLANK);}
 			printLevel(Level);
 		}
 
@@ -83,11 +80,11 @@ int main(){
 		printw("%s", board);
 
 		printw("\n x: %4d, y: %4d, CurLevel: %d", p.x, p.y, CurLevel);
-		printw("\n mX: %3ld, mY: %3ld", mX, mY);
+		printw("\n mX: %3ld, mY: %3ld\n", mX, mY);
 		move(0,0);
 		refresh();
 		
-	} while((movePlayer(getch(), &p,  Level) == 0));
+	} while((movePlayer(getch(), &p,  &Level) == 0));
 
 	endwin();
 	return 0;
