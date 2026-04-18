@@ -7,6 +7,7 @@ TODO: Add saves          |- priority 2
 #include<stdbool.h>
 static bool open = false;
 #include"game.h"
+#include"inventory.h"
 
 
 void printLevel(FILE * Level){

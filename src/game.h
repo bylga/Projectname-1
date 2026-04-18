@@ -83,6 +83,14 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			*Level = LoadLevel(CurLevel);
 			clear();
 			break;
+		case 'c':
+			open = false;
+			CurLevel -= 1;
+			CurLevel %= END;
+			if (*Level != NULL) fclose(*Level);
+			*Level = LoadLevel(CurLevel);
+			clear();
+			break;
 	}
 	p->x = clamp(p->x, 1, mX);
 	p->y = clamp(p->y, 1, mY);
@@ -90,4 +98,3 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 }
 #endif
 
-#include"inventory.h"
