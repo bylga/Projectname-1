@@ -86,7 +86,7 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 		case 'c':
 			open = false;
 			CurLevel -= 1;
-			CurLevel %= END;
+			if (CurLevel < 0) CurLevel += END;
 			if (*Level != NULL) fclose(*Level);
 			*Level = LoadLevel(CurLevel);
 			clear();
