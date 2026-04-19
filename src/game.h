@@ -2,15 +2,16 @@
 #include<assert.h>
 #include<string.h>
 #include<stdlib.h>
+//#include"inventory.h"
+
 #define STARTX 16
 #define STARTY 3
 #ifndef GAMEIMPL
 #define GAMEIMPL
 #else
-
 int CurLevel = 0;
 char board[BUFSIZ];
-long long Turn = 0;
+uint64_t Turn = 0;
 
 enum Levels {
 	test = 0,
@@ -18,7 +19,6 @@ enum Levels {
 	test2,
 	END
 };
-/* TODO: Imploment debug level selection */
 
 typedef struct{
 	int x;
@@ -57,25 +57,36 @@ int clamp(int x, int left, int right){
 }
 
 size_t mX = 32; size_t mY = 16;
+static bool open = false;
+
+char CheckTile(FILE * Level, int x, int y){
+	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
+	return fgetc(Level);
+}
 
 int movePlayer(int mv, Player * p,  FILE ** Level){
 	switch (mv){
 		case KEY_UP:
 			p->y--;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->y++;
 			break;
 		case KEY_DOWN:
 			p->y++;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->y--;
 			break;
 		case KEY_LEFT:
 			p->x--;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->x++;
 			break;
 		case KEY_RIGHT:
 			p->x++;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->x--;
 			break;
 		case 'P':
 			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
 			return 1;
 		case 'C':
+			if (CheckTile(*Level, p->x, p->y) != '<') return 0;
 			open = false;
 			CurLevel += 1;
 			CurLevel %= END;
@@ -84,17 +95,20 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			clear();
 			break;
 		case 'c':
+			if (CheckTile(*Level, p->x, p->y) != '>') return 0;
 			open = false;
 			CurLevel -= 1;
-			if (CurLevel < 0) CurLevel += END;
-			if (*Level != NULL) fclose(*Level);
+			if (CurLevel < 0) {CurLevel += END;}
+			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
 			*Level = LoadLevel(CurLevel);
 			clear();
 			break;
 	}
 	p->x = clamp(p->x, 1, mX);
 	p->y = clamp(p->y, 1, mY);
+	
+	
+	Turn++;
 	return 0;
 }
 #endif
-

@@ -1,42 +1,32 @@
 #include<stddef.h>
-#define pair(a,b) struct{a;b;}pair
+
+#ifndef GAMEIMPL
+#define GAMEIMPL
+#else
 
 typedef struct{
 	char * name;
 	int amount;
 } Item;
 
+struct{
+	struct Node * left;
+	struct Node * right;
+	Item item;
+} Node;
+
 typedef struct{
+	struct Node * Root;
+	size_t count;
 	int x;
 	int y;
 	int level;
-	Item * items;
-	size_t count;
-	size_t capacity;
 } Inventory;
 
-int AddItem(Inventory i, Item a, int x, int y);
-int RemoveItem(Inventory i, Item a);
+void AddItem(Inventory i, Item a, int x, int y);
+void RemoveItem(Inventory i, Item a);
+void AddNode(struct Node * Root, Item item);
+void RemoveNode (struct Node * Root, Item item);
+void CreateInventory (int x, int y, Item item);
 
-#ifndef GAMEIMPL
-#define GAMEIMPL
-#else
-/*
-int AddItem(Inventory & i, Item a, int x, int y){
-	if (i->count == 0){
-		items = malloc(sizeof(Item) * 256);
-		if (items == NULL) return -1;
-		i->capacity = 256;
-		level = CurLevel;
-		i->x = x;
-		i->y = y;
-	}
-	if (i->count >= i->capacity) {capacity *= 2; realloc(i->items, sizeof(Item) * capacity * 2);}
-
-	i->items[count] = a;
-	i->count += 1;
-
-	return 0;
-}
-*/
 #endif
