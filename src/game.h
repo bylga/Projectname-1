@@ -1,69 +1,29 @@
-#include"BLANK.h"
 #include<ncurses.h>
 #include<assert.h>
 #include<string.h>
 #include<stdlib.h>
-#define sidex 32
-#define sidey 16
+//#include"inventory.h"
+
 #define STARTX 16
 #define STARTY 3
 #ifndef GAMEIMPL
 #define GAMEIMPL
 #else
-
 int CurLevel = 0;
-char board[sidex * (sidey + 1) + 1];
-long long Turn = 0;
+char board[BUFSIZ];
+uint64_t Turn = 0;
 
 enum Levels {
 	test = 0,
 	test1,
+	test2,
 	END
 };
-/* TODO: Imploment debug level selection */
 
 typedef struct{
 	int x;
 	int y;
 } Player;
-
-int clamp(int x, int left, int right){
-	x = x < right ? x : right;
-	x = x < left ? left : x;
-	return x;
-}
-
-size_t mX = 32; size_t mY = 16;
-
-int movePlayer(int mv, Player * p,  FILE * Level){
-	enum Levels lvl = END;
-	switch (mv){
-		case KEY_UP:
-			p->y--;
-			break;
-		case KEY_DOWN:
-			p->y++;
-			break;
-		case KEY_LEFT:
-			p->x--;
-			break;
-		case KEY_RIGHT:
-			p->x++;
-			break;
-		case 'P':
-			if (Level != NULL) {fclose(Level); Level = NULL;}
-			return 1;
-		case 'C':
-			CurLevel += 1;
-			CurLevel %= END;
-			return 0;
-		default:
-			return 0;
-	}
-	p->x = clamp(p->x, 1, mX);
-	p->y = clamp(p->y, 1, mY);
-	return 0;
-}
 
 void itoa(char buf[], int x, size_t size){
 	size--;
@@ -89,6 +49,82 @@ FILE * LoadLevel(int LevelNumber){
 
 	return Level;
 }
-#endif
 
-#include"Inventory.h"
+int clamp(int x, int left, int right){
+	x = x < right ? x : right;
+	x = x < left ? left : x;
+	return x;
+}
+
+size_t mX = 32; size_t mY = 16;
+static bool open = false;
+
+char CheckTile(FILE * Level, int x, int y){
+	assert(Level != NULL);
+	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
+	return fgetc(Level);
+}
+/*
+int ChangeTile(FILE * Level, int x, int y){
+	assert(Level != NULL);
+	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
+	fputc(getchar(), Level);
+	
+	return 0;
+}
+
+WIP 
+
+*/ 
+int movePlayer(int mv, Player * p,  FILE ** Level){
+	assert(Level != NULL);
+	switch (mv){
+		case KEY_UP:
+			p->y--;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->y++;
+			break;
+		case KEY_DOWN:
+			p->y++;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->y--;
+			break;
+		case KEY_LEFT:
+			p->x--;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->x++;
+			break;
+		case KEY_RIGHT:
+			p->x++;
+			if (CheckTile(*Level, p->x, p->y) == '#') p->x--;
+			break;
+		case 'P':
+			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
+			return 1;
+		case 'C':
+			if (CheckTile(*Level, p->x, p->y) != '<') return 0;
+			open = false;
+			CurLevel += 1;
+			CurLevel %= END;
+			if (*Level != NULL) fclose(*Level);
+			*Level = LoadLevel(CurLevel);
+			clear();
+			break;
+		case 'c':
+			if (CheckTile(*Level, p->x, p->y) != '>') return 0;
+			open = false;
+			CurLevel -= 1;
+			if (CurLevel < 0) {CurLevel += END;}
+			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
+			*Level = LoadLevel(CurLevel);
+			clear();
+			break;
+		case 'r':
+			ChangeTile(*Level, p->x, p->y);
+			break;
+	}
+	p->x = clamp(p->x, 1, mX);
+	p->y = clamp(p->y, 1, mY);
+	
+	
+	Turn++;
+	return 0;
+}
+#endif
