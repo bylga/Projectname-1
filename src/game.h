@@ -60,11 +60,24 @@ size_t mX = 32; size_t mY = 16;
 static bool open = false;
 
 char CheckTile(FILE * Level, int x, int y){
+	assert(Level != NULL);
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
 	return fgetc(Level);
 }
+/*
+int ChangeTile(FILE * Level, int x, int y){
+	assert(Level != NULL);
+	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
+	fputc(getchar(), Level);
+	
+	return 0;
+}
 
+WIP 
+
+*/ 
 int movePlayer(int mv, Player * p,  FILE ** Level){
+	assert(Level != NULL);
 	switch (mv){
 		case KEY_UP:
 			p->y--;
@@ -102,6 +115,9 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
 			*Level = LoadLevel(CurLevel);
 			clear();
+			break;
+		case 'r':
+			ChangeTile(*Level, p->x, p->y);
 			break;
 	}
 	p->x = clamp(p->x, 1, mX);
