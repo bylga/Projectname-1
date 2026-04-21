@@ -10,10 +10,6 @@ typedef struct{
 	char type;
 } Item;
 
-//qwertyuiop
-//asdfghjkl
-//zxcvbnm
-
 struct{
 	struct Node * left;
 	struct Node * right;
@@ -28,18 +24,11 @@ typedef struct{
 	int level;
 } Inventory;
 
-void AddItem(Inventory * i, Item * a);
-void RemoveItem(Inventory * i, Item * a);
-
+void RemoveNode (struct Node * Root, struct Node * prev, Item * a);
 void AddNode(struct Node * Root, Item * item);
-void RemoveNode (struct Node * Root, struct Node * prev);
 
-Inventory CreateInventory (Item * item, int x, int y);
-/*
-void RemoveItem(Inventory * i, Item * a){
-	if (i->item.name == a->name){
-		RemoveNode(i->Root);
-	}
-}
-*/
+#define AddItem(i, a) AddNode(i->Root, a)
+#define RemoveItem(i, a) RemoveNode(i->Root, NULL, a)
+#define INIT_NODE(n) n.left=NULL;n.right=NULL;
+
 #endif

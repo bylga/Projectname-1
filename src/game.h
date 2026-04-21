@@ -64,36 +64,31 @@ char CheckTile(FILE * Level, int x, int y){
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
 	return fgetc(Level);
 }
-/*
-int ChangeTile(FILE * Level, int x, int y){
+
+void ChangeTile(FILE * Level, int x, int y, char c){
 	assert(Level != NULL);
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
-	fputc(getchar(), Level);
-	
-	return 0;
+	fputc(c, Level);
 }
-
-WIP 
-
-*/ 
+ 
 int movePlayer(int mv, Player * p,  FILE ** Level){
 	assert(Level != NULL);
 	switch (mv){
 		case KEY_UP:
 			p->y--;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->y++;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->y++; Turn--;}
 			break;
 		case KEY_DOWN:
 			p->y++;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->y--;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->y--; Turn--;}
 			break;
 		case KEY_LEFT:
 			p->x--;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->x++;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->x++; Turn--;}
 			break;
 		case KEY_RIGHT:
 			p->x++;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->x--;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->x--; Turn--;}
 			break;
 		case 'P':
 			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
@@ -117,7 +112,7 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			clear();
 			break;
 		case 'r':
-			ChangeTile(*Level, p->x, p->y);
+			ChangeTile(*Level, p->x, p->y, getchar());
 			break;
 	}
 	p->x = clamp(p->x, 1, mX);

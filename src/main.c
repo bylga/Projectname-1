@@ -51,7 +51,6 @@ void GenMap(){
 
 	for (size_t i = 1; i < mY * (mX + 1); i++){
 		if (i % (mX + 1) == 0) board[i - 1] = '\n';
-		else if (i == 55) board[i - 1] = '>';
 		else board[i - 1] = '.';
 	}
 	board[(mX + 1) * mY] = '\0';
@@ -79,7 +78,6 @@ int main(){
 
 		printw("\n x: %4d, y: %4d, CurLevel: %d", p.x, p.y, CurLevel);
 		printw("\n mX: %3ld, mY: %3ld Tile: %lu TileType: %c\n", mX, mY, p.x + mX * (p.y - 1) + offset, CheckTile(Level, p.x, p.y));
-		printw("%p\n", Level);
 		move(0,0);
 		refresh();
 
