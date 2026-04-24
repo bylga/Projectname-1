@@ -70,6 +70,11 @@ int main(){
 	cbreak();
 	keypad(stdscr, TRUE);
 	Level = LoadLevel(CurLevel);
+	/*
+	Item item = {0};
+	Inventory inventory = {0};
+	p.inv = &inventory;
+	AddItem(p.inv, item);*/
 	do {
 		printLevel(Level);
 

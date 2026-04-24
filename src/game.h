@@ -21,6 +21,7 @@ enum Levels {
 };
 
 typedef struct{
+//	Inventory * inv;
 	int x;
 	int y;
 } Player;
