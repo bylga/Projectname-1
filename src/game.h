@@ -21,6 +21,7 @@ enum Levels {
 };
 
 typedef struct{
+//	Inventory * inv;
 	int x;
 	int y;
 } Player;
@@ -65,6 +66,7 @@ char CheckTile(FILE * Level, int x, int y){
 	return fgetc(Level);
 }
 
+<<<<<<< HEAD
 int ChangeTile(FILE * Level, int x, int y, char c){
 	assert(Level != NULL);
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
@@ -78,19 +80,19 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 	switch (mv){
 		case KEY_UP:
 			p->y--;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->y++;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->y++; Turn--;}
 			break;
 		case KEY_DOWN:
 			p->y++;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->y--;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->y--; Turn--;}
 			break;
 		case KEY_LEFT:
 			p->x--;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->x++;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->x++; Turn--;}
 			break;
 		case KEY_RIGHT:
 			p->x++;
-			if (CheckTile(*Level, p->x, p->y) == '#') p->x--;
+			if (CheckTile(*Level, p->x, p->y) == '#') {p->x--; Turn--;}
 			break;
 		case 'P':
 			if (*Level != NULL) {fclose(*Level); *Level = NULL;}

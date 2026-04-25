@@ -1,0 +1,5 @@
+map (symbol - amount (both as char))
+(and for each map there is a line, ending in \0
+
+for player and items on the ground, p.x, p.y as 2 chars below after that inventory, described as len 2 numbers (base 256 numbers, chars)
+items are: char char - index in itemtable char char - amount
