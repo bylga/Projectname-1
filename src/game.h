@@ -44,7 +44,7 @@ FILE * LoadLevel(int LevelNumber){
 
 	strcat(lvl, "./levels/lvl"); strcat(lvl, __BUF); strcat(lvl, ".lvl");
 
-	Level = fopen(lvl, "r");
+	Level = fopen(lvl, "r+");
 	if (Level == NULL) fprintf(stderr, "There is no such level as %d", CurLevel);
 
 	return Level;
@@ -64,18 +64,15 @@ char CheckTile(FILE * Level, int x, int y){
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
 	return fgetc(Level);
 }
-/*
-int ChangeTile(FILE * Level, int x, int y){
+
+int ChangeTile(FILE * Level, int x, int y, char c){
 	assert(Level != NULL);
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
-	fputc(getchar(), Level);
+	fputc(c, Level);
 	
 	return 0;
 }
 
-WIP 
-
-*/ 
 int movePlayer(int mv, Player * p,  FILE ** Level){
 	assert(Level != NULL);
 	switch (mv){
@@ -117,7 +114,7 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			clear();
 			break;
 		case 'r':
-			ChangeTile(*Level, p->x, p->y);
+			ChangeTile(*Level, p->x, p->y, getchar());
 			break;
 	}
 	p->x = clamp(p->x, 1, mX);

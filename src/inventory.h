@@ -10,10 +10,6 @@ typedef struct{
 	char type;
 } Item;
 
-//qwertyuiop
-//asdfghjkl
-//zxcvbnm
-
 struct{
 	struct Node * left;
 	struct Node * right;
