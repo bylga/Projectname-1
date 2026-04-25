@@ -66,6 +66,7 @@ char CheckTile(FILE * Level, int x, int y){
 	return fgetc(Level);
 }
 
+<<<<<<< HEAD
 int ChangeTile(FILE * Level, int x, int y, char c){
 	assert(Level != NULL);
 	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
@@ -74,6 +75,14 @@ int ChangeTile(FILE * Level, int x, int y, char c){
 	return 0;
 }
 
+=======
+void ChangeTile(FILE * Level, int x, int y, char c){
+	assert(Level != NULL);
+	fseek(Level, x + (mX + 1) * (y - 1) + offset - 1, 0);
+	fputc(c, Level);
+}
+ 
+>>>>>>> refs/remotes/origin/master
 int movePlayer(int mv, Player * p,  FILE ** Level){
 	assert(Level != NULL);
 	switch (mv){

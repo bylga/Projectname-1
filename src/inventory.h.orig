@@ -10,17 +10,25 @@ typedef struct{
 	char type;
 } Item;
 
+<<<<<<< HEAD
+struct{
+	struct Node * left;
+	struct Node * right;
+=======
+
 #define INIT_NODE(n, a) n->left=NULL;n->right=NULL;n->item=a
 
 typedef struct Node Node;
 struct Node{
 	Node * left;
 	Node * right;
+>>>>>>> refs/remotes/origin/master
 	Item item;
 };
 
 typedef struct{
 	Node * Root;
+
 	size_t count;
 	int x;
 	int y;
