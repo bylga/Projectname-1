@@ -2,13 +2,13 @@
 #include<assert.h>
 #include<string.h>
 #include<stdlib.h>
-//#include"inventory.h"
 
 #define STARTX 16
 #define STARTY 3
 #ifndef GAMEIMPL
 #define GAMEIMPL
 #else
+#include"inventory.h"
 int CurLevel = 0;
 char board[BUFSIZ];
 uint64_t Turn = 0;
@@ -21,7 +21,7 @@ enum Levels {
 };
 
 typedef struct{
-//	Inventory * inv;
+	Inventory * inv;
 	int x;
 	int y;
 } Player;

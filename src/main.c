@@ -70,11 +70,10 @@ int main(){
 	cbreak();
 	keypad(stdscr, TRUE);
 	Level = LoadLevel(CurLevel);
-	/*
-	Item item = {0};
+	Item * item = malloc(sizeof(Item));
 	Inventory inventory = {0};
 	p.inv = &inventory;
-	AddItem(p.inv, item);*/
+	//AddItem(p.inv, item);
 	do {
 		printLevel(Level);
 
@@ -83,6 +82,7 @@ int main(){
 
 		printw("\n x: %4d, y: %4d, CurLevel: %d", p.x, p.y, CurLevel);
 		printw("\n mX: %3ld, mY: %3ld Tile: %lu TileType: %c\n", mX, mY, p.x + mX * (p.y - 1) + offset, CheckTile(Level, p.x, p.y));
+		printw("%lu", p.inv->capacity);
 		move(0,0);
 		refresh();
 

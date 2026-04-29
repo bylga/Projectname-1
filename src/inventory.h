@@ -1,9 +1,4 @@
 #include<stddef.h>
-
-#ifndef GAMEIMPL
-#define GAMEIMPL
-#else
-
 typedef struct{
 	int amount;
 	char * name;
@@ -19,10 +14,10 @@ typedef struct{
 	int level;
 } Inventory;
 
-#define AddItem(i, a) da_append(i.items, a, i.capacity, i.count);
-#define RemoveItem(i, a) 
+#define AddItem(i, a) da_append(i->items, a, i->capacity, i->count);
+#define RemoveItem(i, a) da_remove(i.items, a, i.capacity, i.count);
 
-#define da_append(xs, a, capacity) do{\
+#define da_append(xs, a, capacity, count) do{\
 	if (capacity == 0) {capacity = 256; xs = malloc(sizeof(*a) * capacity);}\
 	for (size_t i = 0; i < capacity; i++){\
 		if (xs[i].name == NULL){\
@@ -41,11 +36,16 @@ typedef struct{
 	} else if (a->name != NULL){\
 		capacity *= 2;\
 		count++;\
-		xs = realloc(*a * capacity);\
+		xs = realloc(xs, sizeof(*a) * capacity);\
 		xs[count] = *a;\
 	}\
 	free(a);\
 } while(0);
 
+#define da_remove(xs, a, capacity, count)\
+\
+\
+\
+\
+\
 
-#endif
