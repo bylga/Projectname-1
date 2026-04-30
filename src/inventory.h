@@ -42,10 +42,17 @@ typedef struct{
 	free(a);\
 } while(0);
 
-#define da_remove(xs, a, capacity, count)\
-\
-\
-\
-\
-\
+#define da_remove(xs, a, capacity) do{\
+	assert(capacity != 0);\
+	for (size_t i = 0; i < capacity; i++){\
+		static size_t changed = 0;\
+		if (strcmp(xs[i].name, a.name) == 0) {\
+			xs[i].amount -= a.amount;\
+			if (xs[i].amount == 0) xs[i].name = NULL;\
+			changed = 1;\
+			break;\
+		}\
+		if (i == capacity - 1 && changed != 1) assert(1 == 2);\
+	}\
+} while (0);
 
