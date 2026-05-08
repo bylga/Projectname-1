@@ -54,5 +54,6 @@ typedef struct{
 		}\
 		if (i == capacity - 1 && changed != 1) assert(1 == 2);\
 	}\
+	free(a);\
 } while (0);
 

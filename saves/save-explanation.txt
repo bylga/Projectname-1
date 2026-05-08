@@ -1,5 +1,6 @@
-map (symbol - amount (both as char))
-(and for each map there is a line, ending in \0
+map: amount of tile (char) + tile itself
+for each map last line ends in 2 '\0' chars.
 
-for player and items on the ground, p.x, p.y as 2 chars below after that inventory, described as len 2 numbers (base 256 numbers, chars)
-items are: char char - index in itemtable char char - amount
+coordinates of inventories: char+char, char+char
+items are: char+char+char - index in itemtable char+char+char - amount
+non-inventory entities: char+char+char nametable + coordinates + additional info (16 chars) //STC
