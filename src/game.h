@@ -93,6 +93,12 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 			p->x++;
 			if (CheckTile(*Level, p->x, p->y) == '#') {p->x--; Turn--;}
 			break;
+		case 'I':
+			UI = !UI;
+			for (size_t i = 0; i < p->inv->count; i++){
+				printw("%s - %d\n", p->inv->items[i].name, p->inv->items[i].amount);
+			}
+			break;
 		case 'P':
 			if (*Level != NULL) {fclose(*Level); *Level = NULL;}
 			return 1;
@@ -120,8 +126,6 @@ int movePlayer(int mv, Player * p,  FILE ** Level){
 	}
 	p->x = clamp(p->x, 1, mX);
 	p->y = clamp(p->y, 1, mY);
-	
-	
 	Turn++;
 	return 0;
 }

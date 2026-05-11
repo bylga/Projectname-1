@@ -5,6 +5,7 @@ TODO: Add saves          |- priority 2
 */
 #include<stdbool.h>
 static int offset = 0;
+bool UI = false;
 #define GAMEIMPL
 #include"game.h"
 void printLevel(FILE * Level){
@@ -73,16 +74,20 @@ int main(){
 	Item * item = malloc(sizeof(Item));
 	Inventory inventory = {0};
 	p.inv = &inventory;
-	//AddItem(p.inv, item);
+	AddItem(p.inv, item);
 	do {
-		printLevel(Level);
+		if (!UI){
+			printLevel(Level);
 
-		board[p.x - 1 + (mX + 1) * (p.y - 1)] = '@';
-		printw("%s", board);
+			board[p.x - 1 + (mX + 1) * (p.y - 1)] = '@';
+			printw("%s", board);
 
-		printw("\n x: %4d, y: %4d, CurLevel: %d", p.x, p.y, CurLevel);
-		printw("\n mX: %3ld, mY: %3ld Tile: %lu TileType: %c\n", mX, mY, p.x + mX * (p.y - 1) + offset, CheckTile(Level, p.x, p.y));
-		printw("%lu", p.inv->capacity);
+			printw("\n x: %4d, y: %4d, CurLevel: %d", p.x, p.y, CurLevel);
+			printw("\n mX: %3ld, mY: %3ld Tile: %lu TileType: %c\n", mX, mY, p.x + mX * (p.y - 1) + offset, CheckTile(Level, p.x, p.y));
+			printw("%lu", p.inv->capacity);
+		} else{
+			printw("inventory\n");
+		}
 		move(0,0);
 		refresh();
 
